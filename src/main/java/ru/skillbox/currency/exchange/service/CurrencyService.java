@@ -3,7 +3,9 @@ package ru.skillbox.currency.exchange.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.skillbox.currency.exchange.dto.CurrenciesItem;
 import ru.skillbox.currency.exchange.dto.CurrencyDto;
+import ru.skillbox.currency.exchange.dto.TotalCurrencies;
 import ru.skillbox.currency.exchange.entity.Currency;
 import ru.skillbox.currency.exchange.mapper.CurrencyMapper;
 import ru.skillbox.currency.exchange.repository.CurrencyRepository;
@@ -30,5 +32,15 @@ public class CurrencyService {
     public CurrencyDto create(CurrencyDto dto) {
         log.info("CurrencyService method create executed");
         return  mapper.convertToDto(repository.save(mapper.convertToEntity(dto)));
+    }
+
+    public TotalCurrencies getAll() {
+        log.info("CurrencyService method getAll executed");
+        TotalCurrencies totalCurrencies = new TotalCurrencies();
+        totalCurrencies.setCurrencies(repository.findAll()
+                .stream()
+                .map(mapper::convertToItem)
+                .toList());
+        return totalCurrencies;
     }
 }
