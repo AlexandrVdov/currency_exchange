@@ -3,9 +3,8 @@ package ru.skillbox.currency.exchange.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.skillbox.currency.exchange.dto.CurrenciesItem;
 import ru.skillbox.currency.exchange.dto.CurrencyDto;
-import ru.skillbox.currency.exchange.dto.TotalCurrencies;
+import ru.skillbox.currency.exchange.dto.TotalCurrency;
 import ru.skillbox.currency.exchange.entity.Currency;
 import ru.skillbox.currency.exchange.mapper.CurrencyMapper;
 import ru.skillbox.currency.exchange.repository.CurrencyRepository;
@@ -34,13 +33,23 @@ public class CurrencyService {
         return  mapper.convertToDto(repository.save(mapper.convertToEntity(dto)));
     }
 
-    public TotalCurrencies getAll() {
+    public TotalCurrency getAll() {
         log.info("CurrencyService method getAll executed");
-        TotalCurrencies totalCurrencies = new TotalCurrencies();
-        totalCurrencies.setCurrencies(repository.findAll()
+        TotalCurrency totalCurrency = new TotalCurrency();
+        totalCurrency.setCurrencies(repository.findAll()
                 .stream()
-                .map(mapper::convertToItem)
+                .map(mapper::convertToShortDto)
                 .toList());
-        return totalCurrencies;
+        return totalCurrency;
+    }
+
+    public void update(CurrencyDto dto) {
+        log.info("CurrencyService method update executed");
+        repository.save(mapper.convertToEntity(dto));
+    }
+
+    public CurrencyDto getByIsoCharCode(String charCode) {
+        log.info("CurrencyService method getByCharNumCode executed");
+        return mapper.convertToDto(repository.findByIsoCharCode(charCode));
     }
 }

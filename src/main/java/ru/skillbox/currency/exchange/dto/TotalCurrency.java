@@ -5,6 +5,6 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class TotalCurrencies {
-    private List<CurrenciesItem> currencies;
+public class TotalCurrency {
+    private List<CurrencyShortDto> currencies;
 }

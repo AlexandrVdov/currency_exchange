@@ -21,3 +21,10 @@ spring:
         hbm2ddl:
           auto: none
 
+bank:
+  api:
+    getCurrencies: https://cbr.ru/scripts/XML_daily.asp
+  update:
+    repeat:
+      value: 60
+      unit: MINUTES
