@@ -1,4 +1,4 @@
-package ru.skillbox.currency.exchange.client;
+package ru.skillbox.currency.exchange.xml;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 

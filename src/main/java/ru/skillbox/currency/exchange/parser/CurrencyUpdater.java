@@ -1,13 +1,12 @@
-package ru.skillbox.currency.exchange.service;
+package ru.skillbox.currency.exchange.parser;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ru.skillbox.currency.exchange.client.BankClient;
-import ru.skillbox.currency.exchange.client.ValCurs;
-import ru.skillbox.currency.exchange.client.CurrencyJaxb;
+import ru.skillbox.currency.exchange.service.CurrencyService;
+import ru.skillbox.currency.exchange.xml.CurrencyJaxb;
 import ru.skillbox.currency.exchange.dto.CurrencyDto;
 
 import java.util.concurrent.TimeUnit;
@@ -15,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UpdateCurrenciesService {
-    private final BankClient bankClient;
+public class CurrencyUpdater {
+    private final CurrencyLoader currencyLoader;
     private final CurrencyService currencyService;
 
     @Async
@@ -24,7 +23,7 @@ public class UpdateCurrenciesService {
     public void updateCurrencies() {
         log.info("update currencies started");
         try {
-            bankClient.getCurrencies().forEach(currencyJaxb -> {
+            currencyLoader.getCurrencies().forEach(currencyJaxb -> {
                 CurrencyDto currencyDto = currencyService.getByIsoCharCode(currencyJaxb.getCharCode());
                 if(currencyDto == null) {
                     currencyService.create(convertToDto(currencyJaxb));

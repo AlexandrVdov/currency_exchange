@@ -1,4 +1,4 @@
-package ru.skillbox.currency.exchange.client;
+package ru.skillbox.currency.exchange.xml;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import java.util.List;
 @XmlRootElement(name = "ValCurs")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class ValCurs {
+public class ValCursJaxb {
     @XmlAttribute(name = "Date")
     private String date;
 
